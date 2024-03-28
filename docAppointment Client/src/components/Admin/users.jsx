@@ -38,7 +38,7 @@ const Users = () => {
         Cell: ({ value }) => (
           <>
             
-            <Link to={`/users/delete/${value}`} className="btn btn-danger btn-sm">
+            <Link to={`/users/delete/${value}`} className="bbtn btn-danger btn-sm bg-red-500 text-white rounded-full px-2">
               {/* delete button red */}
               Delete
               

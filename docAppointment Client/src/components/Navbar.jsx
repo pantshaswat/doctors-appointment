@@ -53,6 +53,9 @@ const Navbar = () => {
         <Link to={'/book'} className="p-4">
           Appointment
         </Link>
+         <Link to={'/education'} className="p-4">
+          Education
+        </Link>
         <Link to={'/profile'} className="p-4">
           Profile
         </Link>
@@ -62,9 +65,9 @@ const Navbar = () => {
             {/* //medical reports */}
           </>
         )}
-        {token && <Link to={'/join'} className="p-4">
+        {/* {token && <Link to={'/join'} className="p-4">
           Join
-        </Link>}
+        </Link>} */}
         {!isAuthenticated ? (
           <>
             <Link
@@ -91,7 +94,7 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          token && user && (
+          token  && (
             <>
               <div
                 onClick={() => {

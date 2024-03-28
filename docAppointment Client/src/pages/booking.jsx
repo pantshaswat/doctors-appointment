@@ -1,30 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
 const BookingPage = () => {
-  const dummyDoctors = [
-    {
-      id: '1',
-      name: 'Dr. John Doe',
-      specialty: 'Cardiologist',
-      location: '123 Main St, Cityville',
-    },
-    {
-      id: '2',
-      name: 'Dr. Emily Smith',
-      specialty: 'Dermatologist',
-      location: '456 Broad St, Townsville',
-    },
-    {
-      id: '3',
-      name: 'Dr. Michael Johnson',
-      specialty: 'Pediatrician',
-      location: '789 Center St, Villagetown',
-    },
-  ];
-
+  const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [formData, setFormData] = useState({
     userId: '',
@@ -32,6 +12,27 @@ const BookingPage = () => {
     doctorId: '',
     appointmentDate: 'none',
   });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch doctors from the backend API
+    fetchDoctors();
+  }, []);
+
+  const fetchDoctors = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/doctors');
+      if (response.ok) {
+        const data = await response.json();
+        setDoctors(data);
+      } else {
+        throw new Error('Failed to fetch doctors');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSelectDoctor = (doctor) => {
     setSelectedDoctor(doctor);
@@ -44,8 +45,6 @@ const BookingPage = () => {
       [name]: value,
     }));
   };
-
-  const navigate = useNavigate();
 
   const handleBookAppointment = async () => {
     toast.success('Appointment Booked Successfully');
@@ -74,10 +73,10 @@ const BookingPage = () => {
     <>
       <Navbar />
       <div className="container mx-auto mt-8 p-8">
-        <h2 className="text-3xl text-green-400 font-semibold mb-4 ">Select  Doctor</h2>
+        <h2 className="text-3xl text-green-400 font-semibold mb-4 ">Select Doctor</h2>
         {/* Doctor List */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {dummyDoctors.map((doctor) => (
+          {doctors.map((doctor) => (
             <div
               key={doctor.id}
               className={`p-4 border rounded-md cursor-pointer ${
@@ -106,7 +105,7 @@ const BookingPage = () => {
         {/* Booking Form */}
         <div className="mt-8">
           <h3 className="text-3xl font-semibold mb-2 text-green-400">Booking Form</h3>
-          <form className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <form className="">
             {/* Description */}
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-600">
@@ -122,7 +121,7 @@ const BookingPage = () => {
               />
             </div>
             {/* Appointment Date */}
-            <div>
+            <div className='pt-6'>
               <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-600">
                 Appointment Date:
               </label>
@@ -137,6 +136,26 @@ const BookingPage = () => {
               />
             </div>
           </form>
+          {/* add location dropdown */}
+          <div className='pt-6'>
+            <label htmlFor="location" className="block text-sm font-medium text-gray-600">
+              Location:
+            </label>
+            <select
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-green-300"
+              required
+            >
+              <option value="none">Select Location</option>
+              <option value="Lagos">Kathmandu</option>
+              <option value="Abuja">Bhaktapur</option>
+              <option value="Kano">Lalitpur</option>
+              <option value="Port Harcourt">Suryabinayak</option>
+            </select>
+          </div>
           {/* Book Button */}
           <div className="mt-4 text-center">
             <button
@@ -151,7 +170,6 @@ const BookingPage = () => {
         </div>
       </div>
       <Toaster />
-      
     </>
   );
 };

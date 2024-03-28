@@ -21,12 +21,12 @@ const transporter = nodemailer.createTransport({
 });
 // Assuming PORT is defined somewhere in your code
 const PORT = 3000;
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", //frontend url
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "http://localhost:5173", //frontend url
+    credentials: true,
+  })
+);
 //!ROUTES
 const authRoutes = require("./routes/authRoutes");
 const patientRecordRoutes = require("./routes/patientRecordRoutes");
@@ -36,7 +36,7 @@ app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(cookieParser(null, { sameSite: "None" }));
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

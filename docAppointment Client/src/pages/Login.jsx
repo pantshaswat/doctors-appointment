@@ -15,7 +15,9 @@ export default function Login() {
       "Content-Type": "application/json",
 
 
-      },
+    },
+    //with credentials
+    withCredentials: true,
     data:{
       email,
       password
