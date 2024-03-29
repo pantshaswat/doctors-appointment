@@ -25,9 +25,9 @@ const AdminPage = () => {
 						<Route path="/" element={<Dashboard />} />
 					
 						<Route path="/users" element={<Users />} />
-          					<Route path="/services" element={<Services/>} />
+          				<Route path="/services" element={<Services/>} />
 						<Route path="/appointments" element={<Appointments />} />
-												<Route path="/doctor" element={<DoctorsPage />} />
+						<Route path="/doctor" element={<DoctorsPage />} />
 						{/* <Route path="/medical-institution" element={<Appointments />} /> */}
 						<Route path="/inventory" element={<Inventory />} />
 

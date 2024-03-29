@@ -2,37 +2,50 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+import axios from "axios"
 
 const BookingPage = () => {
-  const [doctors, setDoctors] = useState([]);
+  const [data, setData] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [formData, setFormData] = useState({
     userId: '',
     description: '',
     doctorId: '',
-    appointmentDate: 'none',
+    appointmentDate: '',
   });
 
   const navigate = useNavigate();
+  function validateJwt(token) {
+    const payload = jwtDecode(token);
+    return payload;
+}
+const cookies = new Cookies();
+const isAuthenticated = cookies.get('token') !== undefined;
+const token = cookies.get('token');
+let user = null;
+
+if (token) {
+
+  user = validateJwt(token);
+}
 
   useEffect(() => {
-    // Fetch doctors from the backend API
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/doctor/getAll", { withCredentials: true });
+        console.log(response.data);
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchDoctors();
   }, []);
 
-  const fetchDoctors = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/doctors');
-      if (response.ok) {
-        const data = await response.json();
-        setDoctors(data);
-      } else {
-        throw new Error('Failed to fetch doctors');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
 
   const handleSelectDoctor = (doctor) => {
     setSelectedDoctor(doctor);
@@ -48,21 +61,27 @@ const BookingPage = () => {
 
   const handleBookAppointment = async () => {
     toast.success('Appointment Booked Successfully');
-
+  
     if (selectedDoctor) {
-      console.log('Booking appointment with doctor:', selectedDoctor);
+      console.log('Booking appointment with doctor:', selectedDoctor.fullName);
       console.log('Appointment details:', formData);
-
-      // Simulated API call
+  
       try {
-        // const response = await axios.post('API_ENDPOINT', formData);
-        // if (response.status === 201) {
-        //   console.log(`Appointment booked: ${response.data}`);
-        //   navigate('/');
-        // }
-        navigate('/'); // Redirect to home page after successful booking
+        // Send a POST request to create a new appointment
+        const response = await axios.post('http://localhost:3000/appointment/bookappointment', {
+          userId: user,
+          description: formData.description,
+          location: formData.location,
+          doctorId: selectedDoctor,
+          appointmentDate: formData.appointmentDate,
+        });
+  
+        if (response.status === 201) {
+          console.log('Appointment created:', response.data.appointment);
+          navigate('/'); // Redirect to home page after successful booking
+        }
       } catch (error) {
-        console.log(error);
+        console.error('Error creating appointment:', error);
       }
     } else {
       alert('Please select a doctor before booking.');
@@ -76,19 +95,19 @@ const BookingPage = () => {
         <h2 className="text-3xl text-green-400 font-semibold mb-4 ">Select Doctor</h2>
         {/* Doctor List */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {doctors.map((doctor) => (
+        {data.filter((doctor) => doctor.status === "Verified").map((doctor) => (
             <div
-              key={doctor.id}
+              key={doctor._id}
               className={`p-4 border rounded-md cursor-pointer ${
                 selectedDoctor && selectedDoctor.id === doctor.id
                   ? 'border-green-500 bg-green-100'
                   : 'border-gray-200 hover:border-blue-500 hover:bg-gray-50'
               }`}
-              onClick={() => handleSelectDoctor(doctor)}
+              onClick={() => handleSelectDoctor(doctor.doctorUserId)}
             >
-              <h3 className="text-lg font-semibold">{doctor.name}</h3>
-              <p className="text-sm text-gray-500">{doctor.specialty}</p>
-              <p className="text-sm text-gray-500">{doctor.location}</p>
+              <h3 className="text-lg font-semibold">{doctor.doctorUserId.fullName}</h3>
+              <p className="text-sm text-gray-500">{doctor.specialization}</p>
+              <p className="text-sm text-gray-500">{doctor.qualification}</p>
             </div>
           ))}
         </div>
@@ -96,15 +115,14 @@ const BookingPage = () => {
         {selectedDoctor && (
           <div className="mt-8 p-4 border rounded-md">
             <h3 className="text-xl font-semibold mb-2">Selected Doctor</h3>
-            <p>{selectedDoctor.name}</p>
-            <p>{selectedDoctor.specialty}</p>
-            <p>{selectedDoctor.location}</p>
+            <p>{selectedDoctor.fullName}</p>
+
           </div>
         )}
         <div className="border-t my-8"></div>
         {/* Booking Form */}
         <div className="mt-8">
-          <h3 className="text-3xl font-semibold mb-2 text-green-400">Booking Form</h3>
+          <h3 className="text-3xl font-semibold mb-2 text-green-400 ">Booking Form</h3>
           <form className="">
             {/* Description */}
             <div>
@@ -131,7 +149,7 @@ const BookingPage = () => {
                 name="appointmentDate"
                 value={formData.appointmentDate}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-green-300"
+                className="mt-1 p-2 w-200 border rounded-md focus:outline-none focus:ring focus:border-green-300"
                 required
               />
             </div>

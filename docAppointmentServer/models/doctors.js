@@ -16,7 +16,7 @@ const doctorModel = new mongoose.Schema({
     required: true,
   },
   specialization: {
-    type: Number,
+    type: String,
     required: true,
   },
   status:{

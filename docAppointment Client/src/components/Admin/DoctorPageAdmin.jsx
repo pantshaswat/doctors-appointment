@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
+import DoctorVerification from "../DoctorVerification";
 
 const Doctor = () => {
     const [doctors, setDoctors] = useState([]);
@@ -82,7 +83,7 @@ const Doctor = () => {
   });
 
   return (
-    <div className="container mx-auto mt-8 p-8">
+    <div className=" mx-auto mt-8 p-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Doctor Management</h2>
       </div>
@@ -114,7 +115,9 @@ const Doctor = () => {
           })}
         </tbody>
       </table>
+    <DoctorVerification/>
     </div>
+
   );
 };
 

@@ -49,15 +49,8 @@ const Navbar = () => {
         <Link to={'/'} className="p-4">
           Home
         </Link>
-
-        <Link to={'/book'} className="p-4">
-          Appointment
-        </Link>
          <Link to={'/education'} className="p-4">
           Education
-        </Link>
-        <Link to={'/profile'} className="p-4">
-          Profile
         </Link>
 
         {token && (
@@ -96,6 +89,13 @@ const Navbar = () => {
         ) : (
           token  && (
             <>
+            <Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
+                    <Link to={'/book'} className="p-4">
+          Appointment
+        </Link>
+        <Link to={'/profile'} className="p-4">
+          Profile
+        </Link>
               <div
                 onClick={() => {
                   cookies.remove('token');

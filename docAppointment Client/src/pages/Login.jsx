@@ -32,7 +32,7 @@ export default function Login() {
         console.log('Admin')
         navigate('/admin');
       }
-      if(result.data.role === 'ClientUser' || result.data.role === 'serviceCenter'){
+      if(result.data.role === 'ClientUser' || result.data.role === 'Doctor'){
         navigate('/');
       }
     })
