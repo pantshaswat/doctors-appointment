@@ -5,3 +5,5 @@ const{addBloodBank, getAllBloodBanks, deleteBloodBank} = require('../controllers
 router.post('/addBloodBank', addBloodBank);
 router.get('/getAllBloodBanks', getAllBloodBanks);
 router.delete('/deleteBloodBank/:_id', deleteBloodBank);
+
+module.exports=router;

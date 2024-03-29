@@ -20,20 +20,31 @@ const Services = () => {
   }, []);
 
   const handleApprove = async (id) => {
-    try {
-    } catch (error) {
-      console.error("Error approving appointment:", error);
+   
+      try {
+        const response = await axios.put('http://localhost:3000/appointment/approveorreject', {
+          status: 'Approved',
+          appointmentId: id,
+        });
+        console.log(response.data); // Handle response
+      } catch (error) {
+        console.error('Error approving appointment:', error);
+      }
     }
-  };
+  ;
 
   const handleReject = async (id) => {
     try {
-
+      const response = await axios.put('http://localhost:3000/appointment/approveorreject', {
+        status: 'Rejected',
+        appointmentId: id,
+      });
+      console.log(response.data); // Handle response
     } catch (error) {
-      console.error("Error rejecting appointment:", error);
+      console.error('Error approving appointment:', error);
     }
   };
-    
+
 
 
 
@@ -67,18 +78,26 @@ const Services = () => {
                       </div></td>
                     <td className="px-3 py-2 whitespace-nowrap">{appointment.doctorUserId}.</td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      <button
-                        onClick={() => handleApprove(appointment._id)}
-                        className="bg-green-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => handleReject(appointment._id)}
-                        className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
-                      >
-                        Reject
-                      </button>
+                      {(appointment.status === "Pending")?(
+                        <>
+                        <button
+                          onClick={() => handleApprove(appointment._id)}
+                          className="bg-green-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleReject(appointment._id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
+                        >
+                          Reject
+                        </button>
+                        </>
+                      ):(
+                        <div>
+                        {appointment.status}
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

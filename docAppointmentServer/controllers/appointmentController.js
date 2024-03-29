@@ -51,7 +51,7 @@ exports.bookAppointment= async(req, res) =>{
 
 exports.viewAppointments = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.doctorUserId;
 
     const userBookings = await appointment.find({ userId });
 
@@ -104,7 +104,7 @@ exports.getAllEmergencyRequests = async (req,res)=>{
     }
 }
 
-exports.aproveOrRejectAppointment = async (req, res) => {
+exports.approveOrRejectAppointment = async (req, res) => {
   try {
     const { status, appointmentId } = req.body;
     if(status === "Approved"){

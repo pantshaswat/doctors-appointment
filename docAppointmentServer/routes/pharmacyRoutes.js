@@ -5,3 +5,5 @@ const{addPharmacy, getAllPharmacies, deletePharmacy} = require('../controllers/p
 router.post('/addPharmacy', addPharmacy);
 router.get('/getAllPharmacies', getAllPharmacies);
 router.delete('/deletePharmacy/:_id', deletePharmacy);
+
+module.exports=router;
