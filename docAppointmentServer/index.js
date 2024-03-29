@@ -31,6 +31,11 @@ const PORT = 3000;
 const authRoutes = require("./routes/authRoutes");
 const patientRecordRoutes = require("./routes/patientRecordRoutes");
 const medicineRoutes = require("./routes/medicineRoutes");
+const pharmaRoutes = require("./routes/pharmacyRoutes");
+const bloodBankRoutes = require("./routes/bloodBankRoutes");
+
+
+
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
@@ -65,10 +70,12 @@ app.get("/", (req, res) => {
 });
 app.use("/auth", authRoutes);
 app.use("/patient", patientRecordRoutes);
-app.use("/medicine", medicineRoutes);
+app.use("/medicine", medicineRoutes)
+app.use("/pharmacy", pharmaRoutes);
+app.use("/bloodBank", bloodBankRoutes);
 
 // Connect to the database and start the server
-(async () => {
+;(async () => {
   try {
     await Database.connect();
     app.listen(PORT, () => {

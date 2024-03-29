@@ -83,3 +83,27 @@ exports.getAllEmergencyRequests = async (req,res)=>{
         return res.status(500).send(`error ${error}`);
     }
 }
+
+exports.aproveOrRejectAppointment = async (req, res) => {
+  try {
+    const { status, appointmentId } = req.body;
+    if(status === "Approved"){
+
+    const updatedAppointment = await appointment.findByIdAndUpdate(appointmentId, {
+      status,
+    })
+    return res.status(201).send('appointment approved');
+  }
+    	if(status === "Rejected"){
+    const updatedAppointment = await appointment.findByIdAndUpdate(appointmentId, {
+      status,
+    });
+    return res.status(201).send('appointment rejected');
+  }
+  }
+    catch (error) {	
+    console.error(error);
+    return res	
+      .status(500)	
+      .json({ success: false, error: "Internal Server Error" });
+  } }
