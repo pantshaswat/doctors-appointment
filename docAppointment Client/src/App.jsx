@@ -21,7 +21,7 @@ import BookingPage from './pages/booking';
 
 import CulturalWellnessRegistrationForm from './pages/culturalwellness';
 import HospitalPage from './pages/HospitalPage';
-import Appointments from './pages/appointments';
+
 import PatientProfile from './components/Profile';
 import FeedbackForm from './pages/JoinForm';
 import EmergencyServicesPage from './pages/EmergencySerrvice';
