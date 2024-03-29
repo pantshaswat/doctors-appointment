@@ -12,7 +12,7 @@ const BookingPage = () => {
   const [formData, setFormData] = useState({
     userId: '',
     description: '',
-    doctorId: '',
+    doctorUserId: '',
     appointmentDate: '',
   });
 
@@ -72,7 +72,7 @@ if (token) {
           userId: user,
           description: formData.description,
           location: formData.location,
-          doctorId: selectedDoctor,
+          doctorUserId: selectedDoctor,
           appointmentDate: formData.appointmentDate,
         });
   
@@ -168,10 +168,11 @@ if (token) {
               required
             >
               <option value="none">Select Location</option>
-              <option value="Lagos">Kathmandu</option>
-              <option value="Abuja">Bhaktapur</option>
-              <option value="Kano">Lalitpur</option>
-              <option value="Port Harcourt">Suryabinayak</option>
+              <option value="Kathmandu">Kathmandu</option>
+              <option value="Bhaktapur">Bhaktapur</option>
+              <option value="Lalitpur">Lalitpur</option>
+              <option value="Suryabinayak">Suryabinayak</option>
+              <option value="Lalitpur">Lalitpur</option>
             </select>
           </div>
           {/* Book Button */}

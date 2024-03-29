@@ -5,7 +5,8 @@ const {
     viewAppointments,
     viewAppointmentsAll,
     emergencyRequest,
-    getAllEmergencyRequests 
+    getAllEmergencyRequests ,
+    approveOrRejectAppointment
   } = require("../controllers/appointmentController");
 
   router.post("/bookappointment", bookAppointment);
@@ -13,5 +14,6 @@ const {
   router.put("/viewallappointment", viewAppointmentsAll);
   router.post("/emergency", emergencyRequest);
   router.get("/allemergency", getAllEmergencyRequests);
+  router.put("/approveorreject", approveOrRejectAppointment)
 
   module.exports = router;

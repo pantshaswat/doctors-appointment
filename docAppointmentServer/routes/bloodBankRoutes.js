@@ -6,4 +6,4 @@ router.post('/addBloodBank', addBloodBank);
 router.get('/getAllBloodBanks', getAllBloodBanks);
 router.delete('/deleteBloodBank/:_id', deleteBloodBank);
 
-module.exports = router;
+module.exports=router;

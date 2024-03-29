@@ -6,4 +6,4 @@ router.post('/addPharmacy', addPharmacy);
 router.get('/getAllPharmacies', getAllPharmacies);
 router.delete('/deletePharmacy/:_id', deletePharmacy);
 
-module.exports = router;
+module.exports=router;
