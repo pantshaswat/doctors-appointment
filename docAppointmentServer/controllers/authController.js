@@ -17,6 +17,7 @@ async function register(req, res) {
     return res.status(409).send("Email already used");
   }
   const md5Password = md5(body.password);
+  console.log(body)
   const user = await userModel.create({
     email: body.email,
     password: md5Password,

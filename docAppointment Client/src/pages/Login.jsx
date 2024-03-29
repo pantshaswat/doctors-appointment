@@ -28,7 +28,7 @@ export default function Login() {
     axios(configuration)
       .then((result) => {
         console.log(result);
-        if (result.data.role === 'Admin') {
+        if (result.data.role === 'HealthCare') {
         console.log('Admin')
         navigate('/admin');
       }

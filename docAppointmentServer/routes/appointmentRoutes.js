@@ -14,4 +14,4 @@ const {
   router.post("/emergency", emergencyRequest);
   router.get("/allemergency", getAllEmergencyRequests);
 
-  module.exports=router;
+  module.exports = router;
