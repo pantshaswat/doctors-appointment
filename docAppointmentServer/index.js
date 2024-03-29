@@ -31,6 +31,11 @@ app.use(
 const authRoutes = require("./routes/authRoutes");
 const patientRecordRoutes = require("./routes/patientRecordRoutes");
 const medicineRoutes = require("./routes/medicineRoutes");
+const pharmaRoutes = require("./routes/pharmacyRoutes");
+const bloodBankRoutes = require("./routes/bloodBankRoutes");
+
+
+
 const doctorRoutes = require("./routes/doctorRoutes")
 const appointmentRoutes = require("./routes/appointmentRoutes")
 
@@ -67,12 +72,14 @@ app.get("/", (req, res) => {
 });
 app.use("/auth", authRoutes);
 app.use("/patient", patientRecordRoutes);
-app.use("/medicine", medicineRoutes);
+app.use("/medicine", medicineRoutes)
+app.use("/pharmacy", pharmaRoutes);
+app.use("/bloodBank", bloodBankRoutes);
 app.use("/doctor", doctorRoutes);
 app.use("/appointment", appointmentRoutes);
 
 // Connect to the database and start the server
-(async () => {
+;(async () => {
   try {
     await Database.connect();
     app.listen(PORT, () => {

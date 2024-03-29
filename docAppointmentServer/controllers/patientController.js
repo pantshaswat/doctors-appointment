@@ -7,7 +7,7 @@ async function addPatientRecord(req, res){
     const user_id = req.params._id;
      const body = req.body;
      const patientRec = await patientRecord.create({
-        patientUserId: body.patientUserId,
+        patientUserId: user_id,
         allocatedDepartment :body.allocatedDepartment,
         medicalCondition: body.medicalCondition,
         dateOfBirth: body.dateOfBirth,
