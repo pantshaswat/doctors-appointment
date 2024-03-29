@@ -26,6 +26,7 @@ import PatientProfile from './components/Profile';
 import FeedbackForm from './pages/JoinForm';
 import EmergencyServicesPage from './pages/EmergencySerrvice';
 import DoctorRegistration from './pages/DoctorRegistration';
+import Appointment from './pages/Appointment';
 function App() {
   return (
     <Router>
@@ -45,7 +46,7 @@ function App() {
         <Route exact path="/detailsPage" element={<DetailsPage />} />
 
         <Route exact path="/feedback" element={<FeedbackForm />} />
-        <Route exact path="/book" element={<BookingPage />} />
+        <Route exact path="/appointment" element={<Appointment />} />
         <Route exact path="/booking" element={<HospitalPage />} />
         
                 <Route exact path="/emergency" element={<EmergencyServicesPage />} />

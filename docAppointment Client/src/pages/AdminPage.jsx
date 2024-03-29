@@ -8,7 +8,7 @@ import Services from './serviceReq';
 import NotificationScreen from './sendNotification';
 import ServiceCenter from '../components/Admin/serviceCenter';
 import Login from './Login';
-import Appointments from './appointments';
+import Appointments from '../components/Admin/Appointments';
 import DoctorsPage from '../components/Admin/DoctorPageAdmin';
 import Inventory from '../components/Admin/Inventory';
 

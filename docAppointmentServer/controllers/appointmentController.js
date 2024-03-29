@@ -25,7 +25,7 @@ const emergency = require('../models/emergencyAlert');
 //   }
 // };
 exports.bookAppointment= async(req, res) =>{
-  const { userId, description, location, doctorId, appointmentDate } = req.body;
+  const { userId, description, location, doctorUserId, appointmentDate } = req.body;
 
   try {
     // Create a new appointment
@@ -33,7 +33,7 @@ exports.bookAppointment= async(req, res) =>{
       userId,
       description,
       location,
-      doctorId,
+      doctorUserId,
       appointmentDate,
       status: "Pending", // Set status to Pending by default
     });
@@ -66,16 +66,12 @@ exports.viewAppointments = async (req, res) => {
 
 exports.viewAppointmentsAll = async (req, res) => {
   try {
-    const allBookings = await Booking.find();
-
-    return res.status(200).json({ success: true, bookings: allBookings });
+    const appointments = await appointment.find().populate('userId','fullName email').populate('doctorUserId', 'specialization');
+    res.status(200).send(appointments);
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
-  }
-};
+    console.error("Error getting service center:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+};}
 
 exports.emergencyRequest = async (req, res) => {
   try {
