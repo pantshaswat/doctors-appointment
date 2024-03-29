@@ -15,7 +15,13 @@ export default function Sidebar() {
     { to: '/admin/', label: 'Dashboard', icon: '📊' },
     { to: '/admin/users', label: 'Patients', icon: '💵' },
     { to: '/admin/appointments', label: 'Service Requests', icon: '🛠️' },
-        { to: '/admin/services', label: 'Appointments', icon: '✅' },
+    { to: '/admin/services', label: 'Appointments', icon: '✅' },
+        { to: '/admin/doctor', label: 'Doctor', icon: '👨‍⚕️' },
+
+    { to: '/admin/medical-institution', label: 'Medical Institution', icon: '🏥' },
+    { to: '/admin/inventory', label: 'Inventory', icon: '📦' },
+
+        
 
     // { to: '/admin/notifications', label: 'Send Notifications', icon: '🔔' }, 
 

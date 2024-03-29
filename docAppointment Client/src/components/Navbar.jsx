@@ -49,12 +49,8 @@ const Navbar = () => {
         <Link to={'/'} className="p-4">
           Home
         </Link>
-
-        <Link to={'/book'} className="p-4">
-          Appointment
-        </Link>
-        <Link to={'/profile'} className="p-4">
-          Profile
+         <Link to={'/education'} className="p-4">
+          Education
         </Link>
 
         {token && (
@@ -62,9 +58,9 @@ const Navbar = () => {
             {/* //medical reports */}
           </>
         )}
-        {token && <Link to={'/join'} className="p-4">
+        {/* {token && <Link to={'/join'} className="p-4">
           Join
-        </Link>}
+        </Link>} */}
         {!isAuthenticated ? (
           <>
             <Link
@@ -91,8 +87,15 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          token && user && (
+          token  && (
             <>
+            <Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
+                    <Link to={'/book'} className="p-4">
+          Appointment
+        </Link>
+        <Link to={'/profile'} className="p-4">
+          Profile
+        </Link>
               <div
                 onClick={() => {
                   cookies.remove('token');

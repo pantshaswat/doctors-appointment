@@ -15,7 +15,9 @@ export default function Login() {
       "Content-Type": "application/json",
 
 
-      },
+    },
+    //with credentials
+    withCredentials: true,
     data:{
       email,
       password
@@ -30,7 +32,7 @@ export default function Login() {
         console.log('Admin')
         navigate('/admin');
       }
-      if(result.data.role === 'ClientUser' || result.data.role === 'serviceCenter'){
+      if(result.data.role === 'ClientUser' || result.data.role === 'Doctor'){
         navigate('/');
       }
     })

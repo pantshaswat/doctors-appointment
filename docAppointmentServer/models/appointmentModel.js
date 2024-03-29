@@ -12,11 +12,11 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
     },
     location:{
-        type:[Number],
+        type:String,
     },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "doctor",
       required: true,
     },
     status:{

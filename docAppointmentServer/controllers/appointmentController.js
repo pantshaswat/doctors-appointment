@@ -3,27 +3,51 @@ const  appointment = require("../models/appointmentModel");
 const doctor = require("../models/doctors");
 const emergency = require('../models/emergencyAlert');
 
-exports.bookAppointment = async (req, res) => {
-  try {
-    const body = req.body;
+// exports.bookAppointment = async (req, res) => {
+//   try {
+//     const body = req.body;
 
+//     const newAppointment = await appointment.create({
+//       userId: body.userId,
+//       description: body.description,
+//       location: body.location,
+//       doctorId: body.doctorUsId,
+//       status: 'Pending',
+//       appointmentDate: "",
+//     });
+
+//     return res.status(201).json({ success: true, booking: newAppointment });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ success: false, error: "Internal Server Error" });
+//   }
+// };
+exports.bookAppointment= async(req, res) =>{
+  const { userId, description, location, doctorId, appointmentDate } = req.body;
+
+  try {
+    // Create a new appointment
     const newAppointment = await appointment.create({
-      userId: body.userId,
-      description: body.description,
-      location: body.location,
-      doctorId: body.doctorId,
-      status: 'Pending',
-      appointmentDate: "",
+      userId,
+      description,
+      location,
+      doctorId,
+      appointmentDate,
+      status: "Pending", // Set status to Pending by default
     });
 
-    return res.status(201).json({ success: true, booking: newAppointment });
+    // Save the appointment to the database
+
+
+    // Send a success response
+    res.status(201).json({ message: 'Appointment created successfully', newAppointment });
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
+    console.error('Error creating appointment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+}
 
 exports.viewAppointments = async (req, res) => {
   try {

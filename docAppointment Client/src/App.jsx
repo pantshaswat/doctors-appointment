@@ -23,6 +23,9 @@ import CulturalWellnessRegistrationForm from './pages/culturalwellness';
 import HospitalPage from './pages/HospitalPage';
 import Appointments from './pages/appointments';
 import PatientProfile from './components/Profile';
+import FeedbackForm from './pages/JoinForm';
+import EmergencyServicesPage from './pages/EmergencySerrvice';
+import DoctorRegistration from './pages/DoctorRegistration';
 function App() {
   return (
     <Router>
@@ -41,10 +44,13 @@ function App() {
         </Route>
         <Route exact path="/detailsPage" element={<DetailsPage />} />
 
-        <Route exact path="/join" element={<ServiceCenterRegistrationForm />} />
+        <Route exact path="/feedback" element={<FeedbackForm />} />
         <Route exact path="/book" element={<BookingPage />} />
         <Route exact path="/booking" element={<HospitalPage />} />
-        <Route exact path="/profile" element={<PatientProfile />} />
+        
+                <Route exact path="/emergency" element={<EmergencyServicesPage />} />
+        
+                <Route exact path="/doctorrequest" element={<DoctorRegistration/>} />
 
 
 

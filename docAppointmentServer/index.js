@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const medicine = require("./models/medicines");
 // const path = require("path");
 const bodyParser = require("body-parser");
@@ -9,6 +8,7 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 require("dotenv").config();
 
+const app = express();
 const { getMedicineById } = require("./controllers/medicineController");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -21,12 +21,12 @@ const transporter = nodemailer.createTransport({
 });
 // Assuming PORT is defined somewhere in your code
 const PORT = 3000;
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", //frontend url
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "http://localhost:5173", //frontend url
+    credentials: true,
+  })
+);
 //!ROUTES
 const authRoutes = require("./routes/authRoutes");
 const patientRecordRoutes = require("./routes/patientRecordRoutes");
@@ -36,12 +36,14 @@ const bloodBankRoutes = require("./routes/bloodBankRoutes");
 
 
 
+const doctorRoutes = require("./routes/doctorRoutes")
+const appointmentRoutes = require("./routes/appointmentRoutes")
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(cookieParser(null, { sameSite: "None" }));
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -73,6 +75,8 @@ app.use("/patient", patientRecordRoutes);
 app.use("/medicine", medicineRoutes)
 app.use("/pharmacy", pharmaRoutes);
 app.use("/bloodBank", bloodBankRoutes);
+app.use("/doctor", doctorRoutes);
+app.use("/appointment", appointmentRoutes);
 
 // Connect to the database and start the server
 ;(async () => {

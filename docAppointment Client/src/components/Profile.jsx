@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 
 // Custom Card Component for Appointments
 const AppointmentCard = ({ doctor, date, time, status }) => (
@@ -48,6 +49,7 @@ const PatientProfile = () => {
       },
     ],
   });
+
   const handleEdit = () => {
     setIsEditable(true);
   };
@@ -98,16 +100,19 @@ const PatientProfile = () => {
               </button>
             )}
           </div>
-          <div className="mb-4">
+            <div className="mb-4">
             <h3 className="text-lg font-semibold mb-2">Appointment History</h3>
             <div>
               {patientData.history.map((item, index) => (
-                <div key={index} className="bg-white shadow-md rounded-md p-4 mb-4">
-                  {/* History item content */}
-                </div>
+              <div key={index} className="bg-white shadow-md rounded-md p-4 mb-4">
+                <h3 className="text-lg font-semibold mb-2">{item.doctor}</h3>
+                <p className="text-sm text-gray-600 mb-1">Date: {item.date}</p>
+                <p className="text-sm text-gray-600 mb-1">Diagnosis: {item.diagnosis}</p>
+                <p className="text-sm text-gray-600">Prescription: {item.prescription}</p>
+              </div>
               ))}
             </div>
-          </div>
+            </div>
         </div>
         {/* Appointments Section */}
         <div className="w-1/2 p-4">
@@ -125,8 +130,21 @@ const PatientProfile = () => {
           </div>
         </div>
       </div>
+
+      
+
+      
+        <div className="flex justify-center">
+          <Link
+            to="/emergency"
+            className="bg-red-500 text-white text-center px-4 py-2 mt-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-green-300"
+          >
+            Emergency Services
+          </Link>
+        </div>
+
     </>
   );
-};
+}
 
 export default PatientProfile;
