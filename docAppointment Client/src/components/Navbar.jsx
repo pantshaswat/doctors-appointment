@@ -101,7 +101,11 @@ const Navbar = () => {
 <Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
               )
             }
-            
+             {user && user.role === 'ClientUser' && (
+                      <Link to={'/emergency'} className="p-4">
+                      Emergency Appointment
+                    </Link>
+                    )}
                     {user && user.role === 'Doctor' && (
                       <Link to={'/doctorBookings'} className="p-4">
                       My Appointments
