@@ -23,6 +23,7 @@ const Navbar = () => {
     user = validateJwt(token);
   }
 
+
   const [nav, setNav] = useState(false);
   const navigate = useNavigate();
 
@@ -37,7 +38,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto text-black relative">
+    <div style={{ 
+      position: 'relative', 
+      zIndex: 500, 
+   
+     
+      width: '100%',
+      display: 'flex', 
+      justifyContent: 'space-between', // Align items horizontally
+      alignItems: 'center' // Align items vertically
+    }} className="flex justify-between items-center h-24  max-w-[1240px] mx-auto text-black relative">
       <Link to={'/'}>
         {/* <img src={img} alt="Logo" style={{ height: '160px' }} /> */}
         <Link to={'/'} className="text-3xl font-bold text-green-600">
@@ -45,14 +55,11 @@ const Navbar = () => {
         </Link>
       </Link>
 
-      <ul className="hidden md:flex space-x-4">
+      <ul className="hidden md:flex space-x-4 text-green-600">
         <Link to={'/'} className="p-4">
           Home
         </Link>
-         <Link to={'/education'} className="p-4">
-          Education
-        </Link>
-
+        
         {token && (
           <>
             {/* //medical reports */}
@@ -89,17 +96,27 @@ const Navbar = () => {
         ) : (
           token  && (
             <>
-            <Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
-                    <Link to={'/appointment'} className="p-4">
-          Appointment
-        </Link>
+            {
+              user && user.role === 'ClientUser' && (
+<Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
+              )
+            }
+            
+                    {user && user.role === 'Doctor' && (
+                      <Link to={'/doctorBookings'} className="p-4">
+                      My Appointments
+                    </Link>
+                    )}
+                    
         <Link to={'/profile'} className="p-4">
           Profile
         </Link>
               <div
                 onClick={() => {
                   cookies.remove('token');
+               
                   navigate('/');
+                  window.location.reload();
                 }}
                 className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
                 style={{
@@ -116,24 +133,104 @@ const Navbar = () => {
           )
         )}
       </ul>
-      <div onClick={handleNav} className="block md:hidden relative z-10">
+      <div onClick={handleNav} className="block  md:hidden relative z-10">
         {nav ? (
-          <AiOutlineClose size={20} />
+          <AiOutlineClose size={20}/>
         ) : (
           <AiOutlineMenu size={20} />
         )}
       </div>
       <ul
+      style={{ 
+      
+     
+        backgroundColor: '#4c4f9f', // Background color
+        
+        
+      }}
         className={
           nav
-            ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500 z-20' // Increase z-index
+            ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-white ease-in-out duration-500 flex flex-col'
             : 'ease-in-out duration-500 fixed left-[-100%]'
         }
       >
-        <h1 className="w-full text-3xl font-bold text-green-600 m-4"></h1>
-        <span className="p-4 border-b border-gray-600">Home</span>
-        <span className="p-4 border-b border-gray-600">Services</span>
-        <span className="p-4">Become a vendor</span>
+        <h1 className="w-full text-3xl font-bold text-[#575ec2] m-4">
+
+        </h1>
+        <Link to={'/'} className="p-4 border-b border-gray-100">Home</Link>
+        
+        {user && user.role === 'Doctor' && (
+                      <Link to={'/doctorBookings'} className="p-4">
+                      My Appointments
+                    </Link>
+                    )}
+       
+        {token && user.role === 'ClientUser' && (
+
+<Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
+
+        )}
+
+        {!isAuthenticated ? (
+          <>
+            <Link
+              to="/register"
+              className="p-4 border-b border-gray-100 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2] mr-5"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+            >
+              Register
+            </Link>
+            <Link
+              to="/login"
+              className="p-4 border-b border-gray-100 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+            >
+              Login
+            </Link>
+
+          </>
+        ) : (
+
+          token && user && (
+            <>
+<Link to={'/profile'} className="p-4">
+          Profile
+        </Link>
+              {/* logout */}
+              <div
+                onClick={() => {
+                  cookies.remove('token');
+
+                 
+                  navigate('/');
+                  window.location.reload();
+                }}
+                className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+                style={{
+                  height: '40px',
+                  paddingTop: '9px',
+                  marginTop: '6px',
+                }}
+              >
+                Logout
+              </div>
+
+            </>
+
+
+
+          )
+        )}
+        
+     
       </ul>
     </div>
   );

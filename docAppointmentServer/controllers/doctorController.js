@@ -6,7 +6,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 async function getAllDoctors(req, res) {
  
   try {
-    const doctors = await doctor.find().populate('doctorUserId', 'fullName');
+    const doctors = await doctor.find().populate('doctorUserId');
     res.status(200).send(doctors);
   } catch (error) {
     console.error("Error getting service center:", error);
@@ -31,7 +31,7 @@ async function approveDoctor(req, res) {
       { doctorUserId: new ObjectId(user_id) },
       { status: "Verified" }
     );
-    res.status(200).send("Service center approved");
+    res.status(200).send("Doctor approved approved");
   } catch (e) {
     res.status(500).send(e.message);
   }

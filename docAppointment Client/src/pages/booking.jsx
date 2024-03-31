@@ -6,9 +6,9 @@ import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios"
 
-const BookingPage = () => {
+export default function BookingPage  () {
   const [data, setData] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [formData, setFormData] = useState({
     userId: '',
     description: '',
@@ -47,8 +47,8 @@ if (token) {
 
 
 
-  const handleSelectDoctor = (doctor) => {
-    setSelectedDoctor(doctor);
+  const handleSelectDoctor = (doctorId) => {
+    setSelectedDoctorId(doctorId);
   };
 
   const handleChange = (e) => {
@@ -62,7 +62,8 @@ if (token) {
   const handleBookAppointment = async () => {
     toast.success('Appointment Booked Successfully');
   
-    if (selectedDoctor) {
+    if (selectedDoctorId) {
+      const selectedDoctor = data.find(doctor => doctor.doctorUserId === selectedDoctorId);
       console.log('Booking appointment with doctor:', selectedDoctor.fullName);
       console.log('Appointment details:', formData);
   
@@ -72,7 +73,7 @@ if (token) {
           userId: user,
           description: formData.description,
           location: formData.location,
-          doctorUserId: selectedDoctor,
+          doctorUserId: selectedDoctorId,
           appointmentDate: formData.appointmentDate,
         });
   
@@ -99,9 +100,7 @@ if (token) {
             <div
               key={doctor._id}
               className={`p-4 border rounded-md cursor-pointer ${
-                selectedDoctor && selectedDoctor.id === doctor.id
-                  ? 'border-green-500 bg-green-100'
-                  : 'border-gray-200 hover:border-blue-500 hover:bg-gray-50'
+                selectedDoctorId === doctor.doctorUserId ? 'border-green-500 bg-green-100' : 'border-gray-200 hover:border-blue-500 hover:bg-gray-50'
               }`}
               onClick={() => handleSelectDoctor(doctor.doctorUserId)}
             >
@@ -112,10 +111,10 @@ if (token) {
           ))}
         </div>
         {/* Selected Doctor Details */}
-        {selectedDoctor && (
+        {selectedDoctorId && (
           <div className="mt-8 p-4 border rounded-md">
             <h3 className="text-xl font-semibold mb-2">Selected Doctor</h3>
-            <p>{selectedDoctor.fullName}</p>
+            <p>{data.find(doctor => doctor.doctorUserId === selectedDoctorId).doctorUserId.fullName}</p>
 
           </div>
         )}
@@ -181,16 +180,14 @@ if (token) {
               onClick={handleBookAppointment}
               className="bg-green-500 text-white 
               px-10 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300"
-              disabled={!selectedDoctor}
+              disabled={!selectedDoctorId}
             >
               Book Appointment
             </button>
           </div>
         </div>
       </div>
-      <Toaster />
-    </>
-  );
-};
-
-export default BookingPage;
+      </>
+  )
+        }
+     

@@ -18,7 +18,7 @@ import PartsPage from './pages/shop/PartsPage';
 import Users from './components/Admin/users';
 import ServiceCenterRegistrationForm from './pages/JoinForm';
 import BookingPage from './pages/booking';
-
+import DoctorBookings from './pages/doctorBookings';
 import CulturalWellnessRegistrationForm from './pages/culturalwellness';
 import HospitalPage from './pages/HospitalPage';
 
@@ -27,14 +27,15 @@ import FeedbackForm from './pages/JoinForm';
 import EmergencyServicesPage from './pages/EmergencySerrvice';
 import DoctorRegistration from './pages/DoctorRegistration';
 import Appointment from './pages/Appointment';
+
 function App() {
   return (
     <Router>
       <Routes>
       <Route exact path="/admin/*" element={<PrivateAdminRoute />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/service" element={<PartsPage />} />
-        <Route exact path="/details" element={<DetailsPage />} />
+        
+       
 
         <Route exact path="/" element={<PrivateHomeRoute />} >
         <Route exact path="/" element={<UserDashPage/>} />
@@ -47,12 +48,12 @@ function App() {
 
         <Route exact path="/feedback" element={<FeedbackForm />} />
         <Route exact path="/appointment" element={<Appointment />} />
-        <Route exact path="/booking" element={<HospitalPage />} />
+        <Route exact path="/booking" element={<BookingPage />} />
         
                 <Route exact path="/emergency" element={<EmergencyServicesPage />} />
         
                 <Route exact path="/doctorrequest" element={<DoctorRegistration/>} />
-
+<Route exact path="/doctorbookings" element={<DoctorBookings/>} />
 
 
 

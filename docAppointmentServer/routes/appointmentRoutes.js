@@ -10,9 +10,9 @@ const {
   } = require("../controllers/appointmentController");
 
   router.post("/bookappointment", bookAppointment);
-  router.get("/viewappointment", viewAppointments);
+  router.get("/viewappointment/:_id", viewAppointments);
   router.put("/viewallappointment", viewAppointmentsAll);
-  router.post("/emergency", emergencyRequest);
+  router.post("/emergency/:_id", emergencyRequest);
   router.get("/allemergency", getAllEmergencyRequests);
   router.put("/approveorreject", approveOrRejectAppointment)
 

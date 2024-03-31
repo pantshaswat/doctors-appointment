@@ -88,13 +88,16 @@ async function count(req, res) {
 
 async function deleteUser(req,res){
   try {
-    
+  
     const userId = req.params._id;
-    
+    console.log(userId)
+    const user = await userModel.findById(userId)
+  
     await userModel.deleteOne({_id: new ObjectId(userId)});
-    const user = await userModel.findById({userId})
+   
     if(user.role === 'Doctor'){
       await doctor.deleteOne({doctorUserId: new ObjectId(userId)})
+      
     }
     return res.send('User deleted successfully');
   } catch (error) {

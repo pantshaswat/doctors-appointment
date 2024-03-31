@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 const people = [
     {
         name: 'Dr. Emily Thompson',
@@ -26,6 +28,26 @@ const people = [
 ];
 
 export default function Doctors() {
+  const [doctors, setDoctors] = useState([]);
+  useEffect( ()=> {
+    const getDocs = async () => {
+    try{
+
+      const response = await axios.get('http://localhost:3000/doctor/getAll');
+      console.log(response.data);
+      if(Array.isArray(response.data)){
+        setDoctors(response.data);
+      }
+      else{
+        console.log("incorrect format")
+      }
+    }
+    catch(error){
+      console.error("Error fetching data:", error);
+    }
+  }
+  getDocs();
+  },[])
     return (
         <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
@@ -37,13 +59,14 @@ export default function Doctors() {
           </p>
         </div>
         <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
-          {people.map((person) => (
-            <li key={person.name}>
+          {doctors.map((doc) => (
+            <li key={doc._id}>
               <div className="flex items-center gap-x-6">
-                <img className="h-16 w-16 rounded-full" src={person.imageUrl} alt="" />
+                <img className="h-16 w-16 rounded-full" src='/docpic.jpg' alt="doc pic" />
                 <div>
-                  <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
-                  <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
+                <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{doc.doctorUserId.fullName}</h3>
+                  <p className="text-sm font-semibold leading-6 text-indigo-600">{doc.specialization}</p>
+                  <p className="text-sm font-semibold leading-6 text-indigo-600">{doc.qualification}</p>
                 </div>
               </div>
             </li>

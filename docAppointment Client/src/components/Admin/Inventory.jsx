@@ -6,54 +6,33 @@ import { useTable } from "react-table";
 const Inventory = () => {
     const [inventory, setInventory] = useState([]);
     
-    //add dummy setInventory data
-    useEffect(() => {
-        setInventory([
-            {
-                _id: "1",
-                productName: "Paracetamol",
-                quantity: "100",
-                unitPrice: "10",
-                supplier: "ABC Pharmaceuticals",
-                expiryDate: "2023-12-31",
-            },
-            {
-                _id: "2",
-                productName: "Amoxicillin",
-                quantity: "50",
-                unitPrice: "20",
-                supplier: "XYZ Pharmaceuticals",
-                expiryDate: "2024-06-30",
-            },
-        ])
-    }
-            , []);
 
-//   useEffect(() => {
-//     const fetchInventory = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:3000/inventory");
-//         if (Array.isArray(response.data)) {
-//           setInventory(response.data);
-//         } else {
-//           console.error("Invalid data structure:", response.data);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching inventory:", error);
-//       }
-//     };
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/medicine/getAll");
+        console.log(response.data)
+        if (Array.isArray(response.data)) {
+        
+          setInventory(response.data);
+        } else {
+          console.error("Invalid data structure:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+      }
+    };
 
-//     fetchInventory();
-//   }, []);
+    fetchInventory();
+  }, []);
 
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "_id" },
-      { Header: "Product Name", accessor: "productName" },
-      { Header: "Quantity", accessor: "quantity" },
-      { Header: "Unit Price", accessor: "unitPrice" },
-      { Header: "Supplier", accessor: "supplier" },
-      { Header: "Expiry Date", accessor: "expiryDate" },
+      { Header: "Product Name", accessor: "name" },
+      { Header: "Quantity", accessor: "amount" },
+      { Header: "Brand", accessor: "brand" },
+    
     ],
     []
   );
@@ -66,7 +45,7 @@ const Inventory = () => {
   return (
     <div className="container mx-auto mt-8 p-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Inventory Management</h2>
+        <h2 className="text-2xl font-semibold">Medical Equipment</h2>
       </div>
 
       <table className="table-auto w-full border-collapse border">

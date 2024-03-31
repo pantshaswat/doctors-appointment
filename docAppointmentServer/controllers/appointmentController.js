@@ -2,28 +2,7 @@
 const  appointment = require("../models/appointmentModel");
 const doctor = require("../models/doctors");
 const emergency = require('../models/emergencyAlert');
-
-// exports.bookAppointment = async (req, res) => {
-//   try {
-//     const body = req.body;
-
-//     const newAppointment = await appointment.create({
-//       userId: body.userId,
-//       description: body.description,
-//       location: body.location,
-//       doctorId: body.doctorUsId,
-//       status: 'Pending',
-//       appointmentDate: "",
-//     });
-
-//     return res.status(201).json({ success: true, booking: newAppointment });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(500)
-//       .json({ success: false, error: "Internal Server Error" });
-//   }
-// };
+const ObjectId = require('mongoose').Types.ObjectId;
 exports.bookAppointment= async(req, res) =>{
   const { userId, description, location, doctorUserId, appointmentDate } = req.body;
 
@@ -38,8 +17,7 @@ exports.bookAppointment= async(req, res) =>{
       status: "Pending", // Set status to Pending by default
     });
 
-    // Save the appointment to the database
-
+    
 
     // Send a success response
     res.status(201).json({ message: 'Appointment created successfully', newAppointment });
@@ -51,10 +29,11 @@ exports.bookAppointment= async(req, res) =>{
 
 exports.viewAppointments = async (req, res) => {
   try {
-    const userId = req.params.doctorUserId;
-
-    const userBookings = await appointment.find({ userId });
-
+    
+    const userId = req.params._id;
+    
+    const userBookings = await appointment.find({doctorUserId : new ObjectId(  userId ) }).populate('userId')
+    console.log(userBookings);
     return res.status(200).json({ success: true, bookings: userBookings });
   } catch (error) {
     console.error(error);
@@ -66,7 +45,7 @@ exports.viewAppointments = async (req, res) => {
 
 exports.viewAppointmentsAll = async (req, res) => {
   try {
-    const appointments = await appointment.find().populate('userId','fullName email').populate('doctorUserId', 'specialization');
+    const appointments = await appointment.find().populate('doctorUserId').populate('userId');
     res.status(200).send(appointments);
   } catch (error) {
     console.error("Error getting service center:", error);
@@ -76,9 +55,11 @@ exports.viewAppointmentsAll = async (req, res) => {
 exports.emergencyRequest = async (req, res) => {
   try {
     const body = req.body;
-
+    const ID = req.params._id
+    console.log('body:',body);
+    console.log('ID:',ID);
     const emergencyRequest = await emergency.create({
-      userId: body.userId,
+      userId: ID,
       description: body.description,
       emergencyContact: body.emergencyContact,
       location: body.location,
@@ -94,7 +75,7 @@ exports.emergencyRequest = async (req, res) => {
 };
 exports.getAllEmergencyRequests = async (req,res)=>{
     try {
-        const allRequests = await emergency.find();
+        const allRequests = await emergency.find().populate('userId');
         if(!allRequests){
             return res.status(404).send('No requests found');
         }

@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const DoctorVerification = () => {
+const DoctorVerification = ({doctor}) => {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('token');
@@ -18,22 +18,7 @@ const DoctorVerification = () => {
   if (token) {
     user = validateJwt(token);
   }
-
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/doctor/getAll", { withCredentials: true });
-        console.log(response.data);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
 
 const handleApprove =async (id) => {
     // Implement the logic for approving a service center
@@ -46,6 +31,7 @@ const handleApprove =async (id) => {
  })
  .then(response => {
   console.log(response.data);
+  window.location.reload()
  })
  .catch(error => {
   console.error(error);
@@ -61,9 +47,9 @@ const handleApprove =async (id) => {
   return (
     <div className="bg-white rounded-md shadow-md p-4 m-4">
       <h3 className="text-xl font-semibold mb-2">Doctor Verification Requests</h3>
-      {data ? (
+      {doctor ? (
         <div>
-          {data.filter((doctorr) => doctorr.status === "Pending").map((doctorr) => (
+          {doctor.filter((doctorr) => doctorr.status === "Pending").map((doctorr) => (
             <div key={doctorr._id} className="mb-4">
               <p>Doctor's name: {doctorr.fullName}</p>
               <p>License number: {doctorr.licenseNumber}</p>
@@ -71,7 +57,7 @@ const handleApprove =async (id) => {
               <p>Qualification: {doctorr.qualification}</p>
               <div className="flex mt-2">
                 <button
-                  onClick={() => handleApprove(doctorr.doctorUserId)}
+                  onClick={() => handleApprove(doctorr.doctorUserId._id)}
                   className="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300"
                 >
                   Approve
@@ -85,7 +71,7 @@ const handleApprove =async (id) => {
               </div>
             </div>
           ))}
-          {data.filter((doctorr) => doctorr.status === "Verified").length === 0 && <p>No doctor verification requests.</p>}
+          {doctor.filter((doctorr) => doctorr.status === "Verified").length === 0 && <p>No doctor verification requests.</p>}
         </div>
       ) : (
         <p>No requests available...</p>

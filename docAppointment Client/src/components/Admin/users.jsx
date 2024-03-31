@@ -7,7 +7,6 @@ import Sidebar from "../SideBar";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -24,28 +23,22 @@ const Users = () => {
 
     fetchUsers();
   }, []);
-
+const handleDeleteUser = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/auth/delete/${id}`);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "_id" },
       { Header: "Full Name", accessor: "fullName" },
       { Header: "Email", accessor: "email" },
       { Header: "Phone", accessor: "phoneNumber" },
-
-      {
-        Header: "Actions",
-        accessor: "hello",
-        Cell: ({ value }) => (
-          <>
-            
-            <Link to={`/users/delete/${value}`} className="bbtn btn-danger btn-sm bg-red-500 text-white rounded-full px-2">
-              {/* delete button red */}
-              Delete
-              
-            </Link>
-          </>
-        ),
-      },
+      { Header: "Role", accessor: "role" },
+      
     ],
     []
   );
@@ -84,6 +77,9 @@ const Users = () => {
                     {cell.render("Cell")}
                   </td>
                 ))}
+                <td>
+              <button className="bbtn btn-danger btn-sm bg-red-500 text-white rounded-full px-2" onClick={() => handleDeleteUser(row.original._id)}>Delete</button>
+            </td>
               </tr>
             );
           })}

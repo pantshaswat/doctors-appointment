@@ -13,12 +13,12 @@ export default function Sidebar() {
 
   const sidebarLinks = [
     { to: '/admin/', label: 'Dashboard', icon: '📊' },
-    { to: '/admin/users', label: 'Patients', icon: '💵' },
-    { to: '/admin/appointments', label: 'Service Requests', icon: '🛠️' },
+    { to: '/admin/users', label: 'Users', icon: '💵' },
+
     { to: '/admin/services', label: 'Appointments', icon: '✅' },
         { to: '/admin/doctor', label: 'Doctor', icon: '👨‍⚕️' },
+{to: '/admin/emergencyRequests', label: 'Emergency Requests', icon: "🚑"},
 
-    { to: '/admin/medical-institution', label: 'Medical Institution', icon: '🏥' },
     { to: '/admin/inventory', label: 'Inventory', icon: '📦' },
 
         
@@ -32,8 +32,8 @@ export default function Sidebar() {
   ];
 const handleLogOut = ()=>{
   cookies.remove('token');
-  
-    navigate('/');
+               
+                  navigate('/');
 }
   return (
     <div className="flex h-screen">

@@ -8,71 +8,41 @@ import DoctorVerification from "../DoctorVerification";
 const Doctor = () => {
     const [doctors, setDoctors] = useState([]);
     
-    //add dummy setDoctors data
-    useEffect(() => {
-        setDoctors([
-            {
-                _id: "1",
-                doctorUserId: "1",
-                licenseNumber: "123456",
-                qualification: "MBBS",
-                specialization: "General Physician",
-                status: "Pending",
-            },
-            {
-                _id: "2",
-                doctorUserId: "2",
-                licenseNumber: "654321",
-                qualification: "MD",
-                specialization: "Cardiologist",
-                status: "Pending",
-            },
-            {
-                _id: "3",
-                doctorUserId: "3",
-                licenseNumber: "987654",
-                qualification: "MS",
-                specialization: "Orthopedic",
-                status: "Verified",
-            },
-        ])
-        }, []);
 
-//   useEffect(() => {
-//     const fetchDoctors = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:3000/doctors");
-//         if (Array.isArray(response.data)) {
-//           setDoctors(response.data);
-//         } else {
-//           console.error("Invalid data structure:", response.data);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching doctors:", error);
-//       }
-//     };
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        await axios.get("http://localhost:3000/doctor/getAll")
+        .then(response => {
+          if (Array.isArray(response.data)) {
+          
+            setDoctors(response.data);
+            
+          }
+          else {
+            console.error("Invalid data structure:", response.data);
+          }
+        })
+        
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
 
-//     fetchDoctors();
-//   }, []);
+    fetchDoctors();
+   
+  }, []);
 
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "_id" },
-      { Header: "Doctor User ID", accessor: "doctorUserId" },
+      { Header: "Name", accessor: "doctorUserId.fullName" },
       { Header: "License Number", accessor: "licenseNumber" },
       { Header: "Qualification", accessor: "qualification" },
       { Header: "Specialization", accessor: "specialization" },
       { Header: "Status", accessor: "status" },
 
-      {
-        Header: "Actions",
-        accessor: "hello",
-        Cell: ({ row }) => (
-          <Link to={`/doctors/delete/${row.original._id}`} className="btn btn-danger btn-sm bg-red-500 text-white rounded-full px-2">
-            Delete
-          </Link>
-        ),
-      },
+    
     ],
     []
   );
@@ -115,7 +85,7 @@ const Doctor = () => {
           })}
         </tbody>
       </table>
-    <DoctorVerification/>
+    <DoctorVerification doctor= {doctors} />
     </div>
 
   );

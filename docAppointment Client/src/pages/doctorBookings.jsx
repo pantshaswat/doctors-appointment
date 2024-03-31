@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-const Services = () => {
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+import Navbar from "../components/Navbar";
+function validateJwt(token) {
+    const payload = jwtDecode(token);
+    return payload;
+  }
+const DoctorBookings = () => {
   const [appointments, setAppointments] = useState([]);
   const [data, setData]= useState()
+  const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
+  let user = null;
 
+  if (token) {
+    user = validateJwt(token);
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.put("http://localhost:3000/appointment/viewallappointment", { withCredentials: true });
+        console.log(user._id)
+        const response = await axios.get(`http://localhost:3000/appointment/viewappointment/${user._id}`, { withCredentials: true });
         console.log(response.data);
-        setAppointments(response.data);
+        setAppointments(response.data.bookings);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -27,6 +41,7 @@ const Services = () => {
           appointmentId: id,
         });
         console.log(response.data); // Handle response
+        window.location.reload();
       } catch (error) {
         console.error('Error approving appointment:', error);
       }
@@ -40,6 +55,7 @@ const Services = () => {
         appointmentId: id,
       });
       console.log(response.data); // Handle response
+      window.location.reload();
     } catch (error) {
       console.error('Error approving appointment:', error);
     }
@@ -49,8 +65,9 @@ const Services = () => {
 
 
   return (
-
-      <div className="bg-white rounded-md shadow-md p-4 m-4">
+<>
+<Navbar/>
+<div className="bg-white rounded-md shadow-md p-4 m-4">
         <h3 className="text-xl font-semibold mb-2">Appointments</h3>
         {appointments.length > 0 ? (
           <div className="overflow-x-auto">
@@ -61,7 +78,6 @@ const Services = () => {
                   <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created at</th>
                   <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                   <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booked by</th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking for</th>
                   <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -76,7 +92,7 @@ const Services = () => {
                       {appointment.userId.fullName}
                       ({appointment .userId.email})
                       </div></td>
-                    <td className="px-3 py-2 whitespace-nowrap">{appointment.doctorUserId.fullName}.</td>
+                   
                     <td className="px-3 py-2 whitespace-nowrap">
                       {(appointment.status === "Pending")?(
                         <>
@@ -108,8 +124,10 @@ const Services = () => {
           <p>No appointments available...</p>
         )}
       </div>
+</>
+     
     );
 };
 
 
-export default Services;
+export default DoctorBookings;
