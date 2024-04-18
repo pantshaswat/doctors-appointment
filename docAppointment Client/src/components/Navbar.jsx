@@ -112,9 +112,7 @@ const Navbar = () => {
                     </Link>
                     )}
                     
-        <Link to={'/profile'} className="p-4">
-          Profile
-        </Link>
+       
               <div
                 onClick={() => {
                   cookies.remove('token');
@@ -205,9 +203,7 @@ const Navbar = () => {
 
           token && user && (
             <>
-<Link to={'/profile'} className="p-4">
-          Profile
-        </Link>
+
               {/* logout */}
               <div
                 onClick={() => {
