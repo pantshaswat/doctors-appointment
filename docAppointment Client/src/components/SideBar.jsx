@@ -19,7 +19,7 @@ export default function Sidebar() {
         { to: '/admin/doctor', label: 'Doctor', icon: '👨‍⚕️' },
 {to: '/admin/emergencyRequests', label: 'Emergency Requests', icon: "🚑"},
 
-    { to: '/admin/inventory', label: 'Inventory', icon: '📦' },
+   
 
         
 
@@ -40,13 +40,15 @@ const handleLogOut = ()=>{
       {/* Sidebar */}
       <nav className="bg-[#0d1117] w-60 p-3 flex flex-col">
         <div className="flex items-center gap-2 px-1 py-3">
-          <Link to="/" className="
+          <Link to="/admin/" className="
           
           text-3xl font-bold text-green-600
           text-center pl-8
           
           ">
-            Doctor 
+            {/* increase the size of the image */}
+            <img src="/logowhite.png" className="w-20 h-20" alt="logo" />
+           
           </Link>
         </div>
         <div className="py-8 flex flex-1 flex-col gap-0.5">

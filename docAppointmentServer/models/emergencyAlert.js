@@ -17,6 +17,10 @@ const emergencyAlert = new mongoose.Schema(
     location:{
         type:[Number],
     },
+    bloodGroup:{
+      type: String,
+      
+    },
   },
   {
     timestamps: true,

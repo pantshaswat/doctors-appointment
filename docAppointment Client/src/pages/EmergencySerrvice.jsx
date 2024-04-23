@@ -114,6 +114,28 @@ console.log('formdata', formData)
               required
             />
           </div>
+          <div>
+            <label htmlFor='bloodGroup' className='block text-sm font-medium text-gray-600'>Blood Group</label>
+            <select
+            
+              name='bloodGroup'
+              id='bloodGroup'
+              value={formData.bloodGroup}
+              onChange={handleInputChange}
+              className='mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-green-300'
+              required
+              >
+              <option value="">Select a blood group</option>
+  <option value="A+">A+</option>
+  <option value="A-">A-</option>
+  <option value="B+">B+</option>
+  <option value="B-">B-</option>
+  <option value="O+">O+</option>
+  <option value="O-">O-</option>
+  <option value="AB+">AB+</option>
+  <option value="AB-">AB-</option>
+  </select>
+          </div>
           <button type="submit" className="bg-green-500 text-white px-10 py-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
             Request Assistance
           </button>

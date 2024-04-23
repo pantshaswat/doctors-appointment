@@ -54,6 +54,7 @@ const EmergencyRequestList = () => {
             <p className="mb-2"><span className="font-semibold">Description:</span> {request.description}</p>
             <p className="mb-2"><span className="font-semibold">Description:</span> {request.emergencyContact}</p>
             <p className="mb-2"><span className="font-semibold">Location:</span> {request.location.join(', ')}</p>
+            <p className="mb-2"><span className="font-semibold">Status:</span> {request.bloodGroup}</p>
             <button 
               onClick={() => handleViewLocation(request.location)} 
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"

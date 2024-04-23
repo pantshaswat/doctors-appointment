@@ -4,11 +4,11 @@ import { jwtDecode } from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const DoctorVerification = ({doctor}) => {
+const DoctorVerification = ({ doctor }) => {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('token');
-  
+
   function validateJwt(token) {
     const payload = jwtDecode(token);
     return payload;
@@ -18,26 +18,24 @@ const DoctorVerification = ({doctor}) => {
   if (token) {
     user = validateJwt(token);
   }
-  
 
-const handleApprove =async (id) => {
+  const handleApprove = async (id) => {
     // Implement the logic for approving a service center
- try{
-
-   await axios({
-  method: 'put',
-  url: `http://localhost:3000/doctor/approve/${id}`,
-  withCredentials: true
- })
- .then(response => {
-  console.log(response.data);
-  window.location.reload()
- })
- .catch(error => {
-  console.error(error);
- });
- }catch(error){console.log(error)}
-}
+    try {
+      await axios({
+        method: 'put',
+        url: `http://localhost:3000/doctor/approve/${id}`,
+        withCredentials: true
+      })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } catch (error) { console.log(error) }
+  }
 
   const handleReject = (id) => {
     // Implement the logic for rejecting a doctor
@@ -45,13 +43,13 @@ const handleApprove =async (id) => {
   };
 
   return (
-    <div className="bg-white rounded-md shadow-md p-4 m-4">
+    <div className="bg-white rounded-md shadow-md p-4 m-4 overflow-auto h-[100vh]" >
       <h3 className="text-xl font-semibold mb-2">Doctor Verification Requests</h3>
       {doctor ? (
         <div>
           {doctor.filter((doctorr) => doctorr.status === "Pending").map((doctorr) => (
             <div key={doctorr._id} className="mb-4">
-              <p>Doctor's name: {doctorr.fullName}</p>
+              <p>Doctor's name: {doctorr.doctorUserId.fullName}</p>
               <p>License number: {doctorr.licenseNumber}</p>
               <p>Specialization: {doctorr.specialization}</p>
               <p>Qualification: {doctorr.qualification}</p>

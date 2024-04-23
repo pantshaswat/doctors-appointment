@@ -49,7 +49,7 @@ const handleDeleteUser = async (id) => {
   });
 
   return (
-      <div className="container mx-auto mt-8 p-8">
+      <div className="container mx-auto mt-8 p-8 h-screen overflow-y-scroll">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">User Management</h2>
         
@@ -77,9 +77,7 @@ const handleDeleteUser = async (id) => {
                     {cell.render("Cell")}
                   </td>
                 ))}
-                <td>
-              <button className="bbtn btn-danger btn-sm bg-red-500 text-white rounded-full px-2" onClick={() => handleDeleteUser(row.original._id)}>Delete</button>
-            </td>
+                
               </tr>
             );
           })}

@@ -51,7 +51,7 @@ const Navbar = () => {
       <Link to={'/'}>
         {/* <img src={img} alt="Logo" style={{ height: '160px' }} /> */}
         <Link to={'/'} className="text-3xl font-bold text-green-600">
-          Doctors Appointment
+        <img src="/logoblack.png" className="w-20 h-20" alt="logo" />
         </Link>
       </Link>
 
@@ -101,9 +101,9 @@ const Navbar = () => {
 <Link className='p-4 underline hover:text-blue-500' to={'/doctorrequest'}>Register as a Doctor?</Link>
               )
             }
-             {user && user.role === 'ClientUser' && (
+             {user && user.role === 'Doctor' && (
                       <Link to={'/emergency'} className="p-4">
-                      Emergency Appointment
+                      Emergency Blood Request
                     </Link>
                     )}
                     {user && user.role === 'Doctor' && (

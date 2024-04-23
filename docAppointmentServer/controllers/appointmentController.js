@@ -63,6 +63,7 @@ exports.emergencyRequest = async (req, res) => {
       description: body.description,
       emergencyContact: body.emergencyContact,
       location: body.location,
+      bloodGroup: body.bloodGroup,
     });
 
     return res.status(201).json({ success: true, request: emergencyRequest });

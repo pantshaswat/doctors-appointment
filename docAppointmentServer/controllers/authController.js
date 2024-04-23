@@ -3,13 +3,14 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const doctor = require('../models/doctors')
 const md5 = require("md5");
 const { createJwt } = require("../middlewares/jwtAuthMiddleware");
+const patientRecord = require('../models/patientRecord');
 
 async function register(req, res) {
   const body = req.body;
   console.log("Received data:", req.body);
 
   if (!(body.email && body.password && body.fullName && body.role)) {
-    res.status(400).send("All input required");
+    return res.status(400).send("All input required");
   }
   const email = body.email;
   const oldEmail = await userModel.findOne({ email });
@@ -25,6 +26,22 @@ async function register(req, res) {
     phoneNumber: body.phoneNumber ?? "",
     role: body.role,
   });
+  const uid = user._id;
+  const patRecord = req.body;
+try{
+  if(body.role === 'ClientUser'){
+    const patientRec = await patientRecord.create({
+      patientUserId: uid,
+      allocatedDepartment :patRecord.allocatedDepartment,
+      medicalCondition: patRecord.medicalCondition,
+      dateOfBirth: patRecord.dateOfBirth,
+      gender: patRecord.gender
+});
+  }
+}
+  catch(err){
+    return res.status(400).send(`error: ${err}`);
+  }
   return res.status(201).send(user);
 }
 
