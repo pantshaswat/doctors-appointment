@@ -4,7 +4,7 @@ class Database {
     
   static async connect() {
     //Insert MONGODB_URI here
-    
+    //this url doesnt exists anymore. make your own db.
     const MONGODB_URI =
       "mongodb+srv://pantshaswat:XeSHTh9TOxANuREy@cluster0.6qz5grg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     try {
